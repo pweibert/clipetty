@@ -141,14 +141,14 @@ Optionally base64 encode it first if you specify non-nil for ENCODE."
         (term    (getenv "TERM" (selected-frame)))
         (ssh-tty (getenv "SSH_TTY" (selected-frame))))
     (if (<= (length string) clipetty--max-cut)
-        (write-region
-         (clipetty--dcs-wrap string tmux term ssh-tty)
-         nil
-         (clipetty--tty ssh-tty tmux)
-         t
-         0)
-      (message "Selection too long to send to terminal %d" (length string))
-      (sit-for 1))))
+        (progn
+         (write-region
+          (clipetty--dcs-wrap string tmux term ssh-tty)
+          nil
+          (clipetty--tty ssh-tty tmux)
+          t
+          0)
+         (sit-for 0.1)))))
 
 (defun clipetty-cut (orig-fun string)
   "If in a terminal frame, convert STRING to a series of OSC 52 messages.
