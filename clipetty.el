@@ -107,8 +107,8 @@ frame's environment."
       (terminal-name)
     (if tmux
         (let ((tmux-ssh-tty (clipetty--get-tmux-ssh-tty)))
-          (if tmux-ssh-tty tmux-ssh-tty ssh-tty))
-      ssh-tty)))
+          (if tmux-ssh-tty tmux-ssh-tty terminal-name))
+      terminal-name)))
 
 (defun clipetty--make-dcs (string &optional screen)
   "Return STRING, wrapped in a Tmux flavored Device Control String.
