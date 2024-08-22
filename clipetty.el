@@ -103,12 +103,13 @@ Return nil if tmux is unable to locate the environment variable"
   "Return which TTY we should send our OSC payload to.
 Both the SSH-TTY and TMUX arguments should come from the selected
 frame's environment."
-  (if (not ssh-tty)
-      (terminal-name)
-    (if tmux
-        (let ((tmux-ssh-tty (clipetty--get-tmux-ssh-tty)))
-          (if tmux-ssh-tty tmux-ssh-tty terminal-name))
-      terminal-name)))
+  (let ((terminal-name "/dev/tty"))
+   (if (not ssh-tty)
+       (terminal-name)
+     (if tmux
+         (let ((tmux-ssh-tty (clipetty--get-tmux-ssh-tty)))
+           (if tmux-ssh-tty tmux-ssh-tty terminal-name))
+       terminal-name))))
 
 (defun clipetty--make-dcs (string &optional screen)
   "Return STRING, wrapped in a Tmux flavored Device Control String.
